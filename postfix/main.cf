@@ -47,10 +47,12 @@ mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 
-#Handing off local delivery to Dovecot's LMTP, and telling it where to store mail
+# using Dovecot's LMTP for mail delivery and giving it path to store mail
 virtual_transport = lmtp:unix:private/dovecot-lmtp
 
-#Virtual domains, users, and aliases
-virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual-mailbox-domains.cf
-virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual-mailbox-maps.cf
-virtual_alias_maps = mysql:/etc/postfix/mysql-virtual-alias-maps.cf
+# virtual mailbox setups
+virtual_uid_maps = static:5000
+virtual_gid_maps = static:5000
+virtual_alias_maps = mysql:/etc/postfix/mysql/virtual_alias_maps.cf
+virtual_mailbox_domains = mysql:/etc/postfix/mysql/virtual_domains_maps.cf
+virtual_mailbox_maps = mysql:/etc/postfix/mysql/virtual_mailbox_maps.cf

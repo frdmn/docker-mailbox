@@ -48,9 +48,14 @@ RUN echo "postfix postfix/relayhost       string" | debconf-set-selections
 RUN apt-get install -y postfix postfix-mysql
 # Stop postfix
 RUN service postfix stop
+
 # Add configuration files
 ADD postfix/main.cf /etc/postfix/main.cf
 ADD postfix/master.cf /etc/postfix/master.cf
+RUN mkdir /etc/postfix/mysql
+ADD postfix/mysql/virtual_alias_maps.cf /etc/postfix/mysql/virtual_alias_maps.cf
+ADD postfix/mysql/virtual_domains_maps.cf /etc/postfix/mysql/virtual_domains_maps.cf
+ADD postfix/mysql/virtual_mailbox_maps.cf /etc/postfix/mysql/virtual_mailbox_maps.cf
 
 # Install supervisor
 RUN apt-get install -y supervisor
