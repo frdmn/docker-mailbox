@@ -13,6 +13,7 @@ RUN apt-get install -y debconf-utils mysql-server-5.5 openssh-server dovecot-cor
 
 # Configure MySQL
 RUN sed -i -e "s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+ADD settings.conf /tmp/settings.conf
 ADD mysql/update-mysql-password.sh /tmp/update-mysql-password.sh
 RUN /bin/sh /tmp/update-mysql-password.sh
 
@@ -90,6 +91,14 @@ RUN echo "date.timezone = Europe/London;" >> etc/php5/fpm/php.ini
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
+
+# Configure ViMbAdmin
+RUN mkdir /var/www/vimbadmin
+RUN export INSTALL_PATH=/var/www/vimbadmin
+RUN composer create-project --no-interaction opensolutions/vimbadmin $INSTALL_PATH -s dev
+RUN chown -R www-data: $INSTALL_PATH/var
+ADD mysql/create-vimbadmin-database.sh /tmp/create-vimbadmin-database.sh
+RUN /bin/sh /tmp/create-vimbadmin-database.sh
 
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
