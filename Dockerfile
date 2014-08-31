@@ -8,7 +8,7 @@ RUN locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 # Update apt
 RUN apt-get update
 
-# Install debconf-utils
+# Install dependencies
 RUN apt-get install -y debconf-utils mysql-server-5.5 openssh-server dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql mysql-server dovecot-sieve dovecot-managesieved supervisor
 
 # Configure MySQL
