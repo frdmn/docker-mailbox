@@ -66,8 +66,10 @@ RUN rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # Expose SSH
 EXPOSE 22
-# Expost MySQL
+# Expose MySQL
 EXPOSE 3306
+# Expose postfix
+EXPOSE 25
 
 # Start supervisor
 CMD ["/usr/bin/supervisord"]
