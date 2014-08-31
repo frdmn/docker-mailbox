@@ -1,6 +1,7 @@
 # Variables
 
-CONTAINERNAME=`cat settings.conf | grep CONTAINERNAME | grep -oe '[a-z]\+'`
+MAINTAINERNAME=`cat settings.conf | grep MAINTAINERNAME | grep -oe '[a-z]\+'`
+IMAGENAME=`cat settings.conf | grep IMAGENAME | grep -oe '[a-z]\+'`
 MAILHOSTNAME=`cat settings.conf | grep MAILHOSTNAME | grep -oe '[a-z\.\-]\+'`
 
 # Assignments
