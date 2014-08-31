@@ -34,4 +34,3 @@ RUN rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # Start supervisor
 CMD ["/usr/bin/supervisord"]
-#CMD ["bash"]
