@@ -4,8 +4,10 @@ ENV DEBIAN_FRONTEND noninteractive
 
 MAINTAINER Jonas Friedmann version: 0.1
 
+# Update locale
 RUN locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 
+# Update apt
 RUN apt-get update
 
 # Install debconf-utils
