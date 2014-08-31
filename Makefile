@@ -14,9 +14,9 @@ build:
 run:
 	docker stop $(IMAGENAME)_ins
 	docker rm $(IMAGENAME)_ins
-	docker run -h $(MAILHOSTNAME) --name $(IMAGENAME)_ins -p 2222:22 -p 3306:3306 -p 25:25 -d $(MAINTAINERNAME)/$(IMAGENAME)
+	docker run -h $(MAILHOSTNAME) --name $(IMAGENAME)_ins -p 2222:22 -p 3306:3306 -p 25:25 -p 80:80 -d $(MAINTAINERNAME)/$(IMAGENAME)
 
 run-attached:
 	docker stop $(IMAGENAME)_ins
 	docker rm $(IMAGENAME)_ins
-	docker run -h $(MAILHOSTNAME) --name $(IMAGENAME)_ins -p 2222:22 -p 3306:3306 -p 25:25 -t -i $(MAINTAINERNAME)/$(IMAGENAME)
+	docker run -h $(MAILHOSTNAME) --name $(IMAGENAME)_ins -p 2222:22 -p 3306:3306 -p 25:25 -p 80:80 -t -i $(MAINTAINERNAME)/$(IMAGENAME)
