@@ -30,6 +30,7 @@ RUN echo "root:root" | chpasswd
 RUN apt-get -y -q autoclean
 RUN apt-get -y -q autoremove
 RUN apt-get clean
+RUN rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # Start supervisor
 CMD ["/usr/bin/supervisord"]
