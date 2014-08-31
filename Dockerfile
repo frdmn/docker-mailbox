@@ -73,6 +73,8 @@ RUN chmod -R o-rwx /etc/dovecot
 
 # Configure Nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+ADD nginx/default /etc/nginx/sites-available/default
+RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default 
 
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
