@@ -12,3 +12,8 @@ RUN apt-get -y -q autoclean
 RUN apt-get -y -q autoremove
 RUN apt-get clean
 
+RUN apt-get install -y python-setuptools debconf-utils openssl rsyslog
+
+RUN /usr/bin/easy_install supervisor
+RUN /usr/bin/easy_install supervisor-stdout
+ADD ./supervisord.conf /etc/supervisord.conf
