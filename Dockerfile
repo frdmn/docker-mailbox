@@ -86,8 +86,8 @@ RUN chown -R root:root /etc/postfix/ /etc/dovecot/ /etc/nginx/ /etc/supervisor/
 RUN apt-get -y -q autoclean && apt-get -y -q autoremove && apt-get clean
 RUN rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-# Expose SSH, MySQL and postfix
-EXPOSE 22 3306 25
+# Expose SSH, MySQL, postfix and Nginx
+EXPOSE 22 3306 25 80
 
 # Start supervisor
 CMD ["/usr/bin/supervisord"]
