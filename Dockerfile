@@ -57,6 +57,24 @@ ADD postfix/mysql/virtual_alias_maps.cf /etc/postfix/mysql/virtual_alias_maps.cf
 ADD postfix/mysql/virtual_domains_maps.cf /etc/postfix/mysql/virtual_domains_maps.cf
 ADD postfix/mysql/virtual_mailbox_maps.cf /etc/postfix/mysql/virtual_mailbox_maps.cf
 
+# Install dovecot
+RUN apt-get install -y dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql mysql-server dovecot-sieve dovecot-managesieved
+
+#RUN mkdir -p /var/mail/vhosts/
+#VOLUME /var/mail/vhosts
+RUN groupadd -g 5000 vmail
+RUN useradd -g vmail -u 5000 vmail -d /var/mail
+
+# Add dovecot configuration files
+ADD dovecot/dovecot.conf /etc/dovecot/dovecot.conf
+ADD dovecot/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
+ADD dovecot/conf.d/10-auth.conf /etc/dovecot/conf.d/10-auth.conf
+ADD dovecot/conf.d/10-logging.conf /etc/dovecot/conf.d/10-logging.conf
+ADD dovecot/conf.d/10-mail.conf /etc/dovecot/conf.d/10-mail.conf 
+ADD dovecot/conf.d/10-master.conf /etc/dovecot/conf.d/10-master.conf
+RUN chown -R vmail:dovecot /etc/dovecot
+RUN chmod -R o-rwx /etc/dovecot
+
 # Install supervisor
 RUN apt-get install -y supervisor
 
@@ -64,7 +82,7 @@ RUN apt-get install -y supervisor
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Correct permissions
-RUN chown -R root:root /etc/postfix/ /etc/supervisor/
+RUN chown -R root:root /etc/postfix/ /etc/dovecot/ /etc/supervisor/
 
 # Clean up apt-get
 RUN apt-get -y -q autoclean
