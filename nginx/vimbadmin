@@ -1,0 +1,21 @@
+server {
+  server_name vimbadmin.myserver.com;
+
+  access_log /var/log/nginx/vimbadmin.myserver.com.access.log;
+  error_log /var/log/nginx/vimbadmin.myserver.com.error.log;
+  
+  root /var/www/vimbadmin;
+  index index.php;
+  
+  location / {
+    try_files $uri $uri/ /index.php?$args;
+  }
+  
+  location ~ \.php$ {
+    try_files $uri =404;
+    fastcgi_pass    unix:/var/run/php5-fpm.sock;
+    fastcgi_index   index.php;
+    fastcgi_param   SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    fastcgi_param   ENV DOCKER;
+  }
+}

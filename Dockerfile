@@ -74,11 +74,6 @@ RUN chmod -R o-rwx /etc/dovecot
 
 # Configure Nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-ADD nginx/default /etc/nginx/sites-available/default
-RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default 
-RUN mkdir /var/www
-RUN echo "<?php echo 'default virtual host';?>" >> /var/www/index.php
-RUN chown -R www-data:root /var/www
 
 # Configure PHP5-FPM
 RUN sed -i -e "s/short_open_tag = Off/short_open_tag = On/g" /etc/php5/fpm/php.ini
@@ -92,6 +87,11 @@ RUN echo "date.timezone = Europe/London;" >> etc/php5/fpm/php.ini
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
+# Prepare Nginx
+ADD nginx/vimbadmin /etc/nginx/sites-available/vimbadmin
+RUN ln -sf /etc/nginx/sites-available/vimbadmin /etc/nginx/sites-enabled/vimbadmin 
+RUN mkdir /var/www
+
 # Configure ViMbAdmin
 RUN mkdir /var/www/vimbadmin
 RUN export INSTALL_PATH=/var/www/vimbadmin
@@ -100,6 +100,9 @@ RUN chown -R www-data: /var/www/vimbadmin/var
 ADD mysql/create-vimbadmin-database.sh /tmp/create-vimbadmin-database.sh
 RUN /bin/sh /tmp/create-vimbadmin-database.sh
 RUN cp /var/www/vimbadmin/application/configs/application.ini.dist /var/www/vimbadmin/application/configs/application.ini
+
+# Adjust web server file permissions
+RUN chown -R www-data:root /var/www
 
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
