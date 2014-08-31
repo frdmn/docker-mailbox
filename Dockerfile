@@ -12,7 +12,8 @@ RUN apt-get -y -q autoclean
 RUN apt-get -y -q autoremove
 RUN apt-get clean
 
-RUN apt-get install -y debconf-utils openssl rsyslog
+# Install debconf-utils
+RUN apt-get install -y debconf-utils
 
 # Install MySQL
 RUN apt-get install -y mysql-server-5.5
