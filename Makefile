@@ -12,7 +12,7 @@ build:
 	docker build -t $(MAINTAINERNAME)/$(IMAGENAME) .
 
 run:
-	docker run -h $(MAILHOSTNAME) -d $(MAINTAINERNAME)/$(IMAGENAME)
+	docker run -h $(MAILHOSTNAME) -p 3306:3306 -p 2222:22 -d $(MAINTAINERNAME)/$(IMAGENAME)
 
 run-attached:
 	docker run -h $(MAILHOSTNAME) -t -i $(MAINTAINERNAME)/$(IMAGENAME)
