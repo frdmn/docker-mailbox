@@ -8,10 +8,10 @@ MAILHOSTNAME=`cat settings.conf | grep MAILHOSTNAME | grep -oe '[a-z\.\-]\+'`
 all: build
 
 build:
-	docker build -t $(CONTAINERNAME) .
+	docker build -t $(MAINTAINERNAME)/$(IMAGENAME) .
 
 run:
-	docker run -h $(MAILHOSTNAME) $(CONTAINERNAME)
+	docker run -h $(MAILHOSTNAME) -d $(MAINTAINERNAME)/$(IMAGENAME)
 
-run-interactive:
-	docker run -h $(MAILHOSTNAME) -i -t $(CONTAINERNAME)
+run-attached:
+	docker run -h $(MAILHOSTNAME) -t -i $(MAINTAINERNAME)/$(IMAGENAME)
