@@ -19,4 +19,4 @@ RUN /usr/bin/easy_install supervisor
 RUN /usr/bin/easy_install supervisor-stdout
 
 # Copy supervisor config
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
