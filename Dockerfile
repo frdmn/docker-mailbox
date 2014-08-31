@@ -8,10 +8,6 @@ RUN locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 
 RUN apt-get update
 
-RUN apt-get -y -q autoclean
-RUN apt-get -y -q autoremove
-RUN apt-get clean
-
 # Install debconf-utils
 RUN apt-get install -y debconf-utils
 
@@ -26,6 +22,11 @@ RUN apt-get install -y supervisor
 
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Clean up apt-get
+RUN apt-get -y -q autoclean
+RUN apt-get -y -q autoremove
+RUN apt-get clean
 
 # Start supervisor
 CMD ["/usr/bin/supervisord"]
