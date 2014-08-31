@@ -8,7 +8,7 @@ apt-get update
 apt-get install -y docker.io git
 apt-get purge -y puppet puppet-common
 DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade -y
-apt-get -y autoremove
+apt-get autoremove-y 
 ln -sf /usr/bin/docker.io /usr/local/bin/docker
 sudo sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
 SCRIPT
