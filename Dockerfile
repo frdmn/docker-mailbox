@@ -29,5 +29,8 @@ RUN apt-get -y -q autoremove
 RUN apt-get clean
 RUN rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
+# Expost MySQL
+EXPOSE 3306
+
 # Start supervisor
 CMD ["/usr/bin/supervisord"]
