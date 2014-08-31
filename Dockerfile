@@ -1,5 +1,4 @@
-FROM ubuntu:12.04
-
+FROM ubuntu:14.04
 MAINTAINER Jonas Friedmann <j@frd.mn> version: 0.1
 ENV DEBIAN_FRONTEND noninteractive
 
