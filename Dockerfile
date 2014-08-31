@@ -75,6 +75,9 @@ RUN chmod -R o-rwx /etc/dovecot
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 ADD nginx/default /etc/nginx/sites-available/default
 RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default 
+RUN mkdir /var/www
+RUN echo "<?php echo 'default virtual host';?>" >> /var/www/index.php
+RUN chown -R www-data:root /var/www
 
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
