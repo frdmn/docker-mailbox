@@ -21,6 +21,8 @@ RUN /bin/sh /tmp/update-mysql-password.sh
 RUN apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 RUN echo "root:root" | chpasswd
+RUN sed -i "s/session.*required.*pam_loginuid.so/#session    required     pam_loginuid.so/" /etc/pam.d/sshd
+RUN sed -i "s/PermitRootLogin without-password/#PermitRootLogin without-password/" /etc/ssh/sshd_config
 
 # Install supervisor
 RUN apt-get install -y supervisor
