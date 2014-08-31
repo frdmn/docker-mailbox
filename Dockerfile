@@ -17,6 +17,11 @@ RUN sed -i -e "s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mys
 ADD mysql/update-mysql-password.sh /tmp/update-mysql-password.sh
 RUN /bin/sh /tmp/update-mysql-password.sh
 
+# Install SSH server
+RUN apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+RUN echo "root:root" | chpasswd
+
 # Install supervisor
 RUN apt-get install -y supervisor
 
@@ -29,6 +34,8 @@ RUN apt-get -y -q autoremove
 RUN apt-get clean
 RUN rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
+# Expose SSH
+EXPOSE 22
 # Expost MySQL
 EXPOSE 3306
 
