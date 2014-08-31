@@ -9,16 +9,14 @@ RUN locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 RUN apt-get update
 
 # Install debconf-utils
-RUN apt-get install -y debconf-utils
+RUN apt-get install -y debconf-utils mysql-server-5.5 openssh-server dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql mysql-server dovecot-sieve dovecot-managesieved supervisor
 
-# Install MySQL
-RUN apt-get install -y mysql-server-5.5
+# Configure MySQL
 RUN sed -i -e "s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
 ADD mysql/update-mysql-password.sh /tmp/update-mysql-password.sh
 RUN /bin/sh /tmp/update-mysql-password.sh
 
-# Install SSH server
-RUN apt-get install -y openssh-server
+# Configure SSH server
 RUN mkdir /var/run/sshd
 RUN echo "root:root" | chpasswd
 RUN sed -i "s/session.*required.*pam_loginuid.so/#session    required     pam_loginuid.so/" /etc/pam.d/sshd
@@ -45,11 +43,11 @@ RUN echo "postfix postfix/chattr  boolean false" | debconf-set-selections
 RUN echo "postfix postfix/mailbox_limit   string  0" | debconf-set-selections
 RUN echo "postfix postfix/relayhost       string" | debconf-set-selections
 # Install postfix
-RUN apt-get install -y postfix postfix-mysql
+RUN apt-get install -y postfix postfix-mysql 
 # Stop postfix
 RUN service postfix stop
 
-# Add configuration files
+# Add postfix configuration files
 ADD postfix/main.cf /etc/postfix/main.cf
 ADD postfix/master.cf /etc/postfix/master.cf
 RUN mkdir /etc/postfix/mysql
@@ -57,9 +55,7 @@ ADD postfix/mysql/virtual_alias_maps.cf /etc/postfix/mysql/virtual_alias_maps.cf
 ADD postfix/mysql/virtual_domains_maps.cf /etc/postfix/mysql/virtual_domains_maps.cf
 ADD postfix/mysql/virtual_mailbox_maps.cf /etc/postfix/mysql/virtual_mailbox_maps.cf
 
-# Install dovecot
-RUN apt-get install -y dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql mysql-server dovecot-sieve dovecot-managesieved
-
+# Configure dovecot
 #RUN mkdir -p /var/mail/vhosts/
 #VOLUME /var/mail/vhosts
 RUN groupadd -g 5000 vmail
@@ -75,9 +71,6 @@ ADD dovecot/conf.d/10-master.conf /etc/dovecot/conf.d/10-master.conf
 RUN chown -R vmail:dovecot /etc/dovecot
 RUN chmod -R o-rwx /etc/dovecot
 
-# Install supervisor
-RUN apt-get install -y supervisor
-
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
@@ -85,9 +78,7 @@ ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chown -R root:root /etc/postfix/ /etc/dovecot/ /etc/supervisor/
 
 # Clean up apt-get
-RUN apt-get -y -q autoclean
-RUN apt-get -y -q autoremove
-RUN apt-get clean
+RUN apt-get -y -q autoclean && apt-get -y -q autoremove && apt-get clean
 RUN rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # Expose SSH
