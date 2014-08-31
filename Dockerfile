@@ -9,7 +9,7 @@ RUN locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 RUN apt-get update
 
 # Install dependencies
-RUN apt-get install -y debconf-utils mysql-server-5.5 openssh-server dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql mysql-server dovecot-sieve dovecot-managesieved supervisor
+RUN apt-get install -y debconf-utils mysql-server-5.5 openssh-server dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql mysql-server dovecot-sieve dovecot-managesieved supervisor nginx
 
 # Configure MySQL
 RUN sed -i -e "s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
@@ -71,11 +71,14 @@ ADD dovecot/conf.d/10-master.conf /etc/dovecot/conf.d/10-master.conf
 RUN chown -R vmail:dovecot /etc/dovecot
 RUN chmod -R o-rwx /etc/dovecot
 
+# Configure Nginx
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Correct permissions
-RUN chown -R root:root /etc/postfix/ /etc/dovecot/ /etc/supervisor/
+RUN chown -R root:root /etc/postfix/ /etc/dovecot/ /etc/nginx/ /etc/supervisor/
 
 # Clean up apt-get
 RUN apt-get -y -q autoclean && apt-get -y -q autoremove && apt-get clean
