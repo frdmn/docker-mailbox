@@ -58,6 +58,9 @@ RUN apt-get install -y supervisor
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Correct permissions
+RUN chown -R root:root /etc/postfix/ /etc/supervisor/
+
 # Clean up apt-get
 RUN apt-get -y -q autoclean
 RUN apt-get -y -q autoremove
