@@ -23,6 +23,9 @@ RUN apt-get install -y supervisor
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Set root password
+RUN echo "root:root" | chpasswd
+
 # Clean up apt-get
 RUN apt-get -y -q autoclean
 RUN apt-get -y -q autoremove
