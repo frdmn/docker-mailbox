@@ -95,10 +95,11 @@ RUN mv composer.phar /usr/local/bin/composer
 # Configure ViMbAdmin
 RUN mkdir /var/www/vimbadmin
 RUN export INSTALL_PATH=/var/www/vimbadmin
-RUN composer create-project --no-interaction opensolutions/vimbadmin $INSTALL_PATH -s dev
-RUN chown -R www-data: $INSTALL_PATH/var
+RUN composer create-project --no-interaction opensolutions/vimbadmin /var/www/vimbadmin -s dev
+RUN chown -R www-data: /var/www/vimbadmin/var
 ADD mysql/create-vimbadmin-database.sh /tmp/create-vimbadmin-database.sh
 RUN /bin/sh /tmp/create-vimbadmin-database.sh
+RUN cp /var/www/vimbadmin/application/configs/application.ini.dist /var/www/vimbadmin/application/configs/application.ini
 
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
