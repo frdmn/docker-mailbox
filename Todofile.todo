@@ -1,2 +1,6 @@
 ViMbAdmin:
   ☐ Search and replace application.ini
+General:
+  Persistent data storage:
+    ☐ Export/import
+    ☐ Volumes for MySQL and mail storage?
