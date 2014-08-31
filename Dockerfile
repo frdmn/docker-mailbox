@@ -14,6 +14,9 @@ RUN apt-get clean
 
 RUN apt-get install -y python-setuptools debconf-utils openssl rsyslog
 
+# Install supervisor
 RUN /usr/bin/easy_install supervisor
 RUN /usr/bin/easy_install supervisor-stdout
-ADD ./supervisord.conf /etc/supervisord.conf
+
+# Copy supervisor config
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
