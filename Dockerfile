@@ -14,6 +14,12 @@ RUN apt-get clean
 
 RUN apt-get install -y debconf-utils openssl rsyslog
 
+# Install MySQL
+RUN apt-get install -y mysql-server-5.5
+RUN sed -i -e "s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+ADD mysql/update-mysql-password.sh /tmp/update-mysql-password.sh
+RUN /bin/sh /tmp/update-mysql-password.sh
+
 # Install supervisor
 RUN apt-get install -y supervisor
 
