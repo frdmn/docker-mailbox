@@ -96,6 +96,7 @@ RUN rm /etc/nginx/sites-enabled/default
 # Configure ViMbAdmin
 RUN mkdir /var/www/vimbadmin
 RUN export INSTALL_PATH=/var/www/vimbadmin
+RUN composer config -g github-protocols https
 RUN composer create-project --no-interaction opensolutions/vimbadmin /var/www/vimbadmin -s dev
 RUN chown -R www-data: /var/www/vimbadmin/var
 ADD mysql/create-vimbadmin-database.sh /tmp/create-vimbadmin-database.sh
