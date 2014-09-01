@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 . /tmp/settings.conf
 
 /usr/sbin/mysqld &
