@@ -92,6 +92,8 @@ RUN rm /etc/nginx/sites-enabled/default
 ADD nginx/vimbadmin /etc/nginx/sites-available/vimbadmin
 RUN ln -sf /etc/nginx/sites-available/vimbadmin /etc/nginx/sites-enabled/vimbadmin 
 RUN mkdir /var/www
+ADD nginx/correct-vimbadmin-hostname.sh /tmp/correct-vimbadmin-hostname.sh
+RUN /bin/sh /tmp/correct-vimbadmin-hostname.sh
 
 # Configure ViMbAdmin
 RUN mkdir /var/www/vimbadmin
@@ -102,6 +104,8 @@ RUN chown -R www-data: /var/www/vimbadmin/var
 ADD mysql/create-vimbadmin-database.sh /tmp/create-vimbadmin-database.sh
 RUN /bin/sh /tmp/create-vimbadmin-database.sh
 RUN cp /var/www/vimbadmin/application/configs/application.ini.dist /var/www/vimbadmin/application/configs/application.ini
+ADD nginx/correct-vimbadmin-settings-file.sh /tmp/correct-vimbadmin-settings-file.sh
+RUN /bin/sh /tmp/correct-vimbadmin-settings-file.sh
 
 # Adjust web server file permissions
 RUN chown -R www-data:root /var/www
