@@ -4,7 +4,7 @@ server {
   access_log /var/log/nginx/vimbadmin.myserver.com.access.log;
   error_log /var/log/nginx/vimbadmin.myserver.com.error.log;
   
-  root /var/www/vimbadmin;
+  root /var/www/vimbadmin/public;
   index index.php;
   
   location / {
