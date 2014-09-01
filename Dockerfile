@@ -106,6 +106,11 @@ RUN /bin/sh /tmp/create-vimbadmin-database.sh
 RUN cp /var/www/vimbadmin/application/configs/application.ini.dist /var/www/vimbadmin/application/configs/application.ini
 ADD nginx/correct-vimbadmin-settings-file.sh /tmp/correct-vimbadmin-settings-file.sh
 RUN /bin/sh /tmp/correct-vimbadmin-settings-file.sh
+RUN cp /var/www/vimbadmin/public/.htaccess.dist /var/www/vimbadmin/public/.htaccess
+
+# Create SQL tables for ViMbAdmin
+ADD nginx/create-vimbadmin-sql-tables.sh /tmp/create-vimbadmin-sql-tables.sh
+RUN /bin/sh /tmp/create-vimbadmin-sql-tables.sh
 
 # Adjust web server file permissions
 RUN chown -R www-data:root /var/www
