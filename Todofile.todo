@@ -1,6 +1,9 @@
 ViMbAdmin:
   ☐ Search and replace application.ini
 General:
+  ☐ Locale?
+  ☐ SSL for Web
+  ☐ SSL for Mail
   Persistent data storage:
     ☐ Export/import
     ☐ Volumes for MySQL and mail storage?
