@@ -88,10 +88,10 @@ RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 # Prepare Nginx
+RUN rm /etc/nginx/sites-enabled/default
 ADD nginx/vimbadmin /etc/nginx/sites-available/vimbadmin
 RUN ln -sf /etc/nginx/sites-available/vimbadmin /etc/nginx/sites-enabled/vimbadmin 
 RUN mkdir /var/www
-RUN rm /etc/nginx/sites-enabled/default
 
 # Configure ViMbAdmin
 RUN mkdir /var/www/vimbadmin
