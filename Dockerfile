@@ -44,7 +44,7 @@ RUN echo "postfix postfix/chattr  boolean false" | debconf-set-selections
 RUN echo "postfix postfix/mailbox_limit   string  0" | debconf-set-selections
 RUN echo "postfix postfix/relayhost       string" | debconf-set-selections
 # Install postfix
-RUN apt-get install -y postfix postfix-mysql 
+RUN apt-get install -y postfix postfix-mysql
 # Stop postfix
 RUN service postfix stop
 
@@ -67,7 +67,7 @@ ADD dovecot/dovecot.conf /etc/dovecot/dovecot.conf
 ADD dovecot/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
 ADD dovecot/conf.d/10-auth.conf /etc/dovecot/conf.d/10-auth.conf
 ADD dovecot/conf.d/10-logging.conf /etc/dovecot/conf.d/10-logging.conf
-ADD dovecot/conf.d/10-mail.conf /etc/dovecot/conf.d/10-mail.conf 
+ADD dovecot/conf.d/10-mail.conf /etc/dovecot/conf.d/10-mail.conf
 ADD dovecot/conf.d/10-master.conf /etc/dovecot/conf.d/10-master.conf
 RUN chown -R vmail:dovecot /etc/dovecot
 RUN chmod -R o-rwx /etc/dovecot
@@ -90,7 +90,7 @@ RUN mv composer.phar /usr/local/bin/composer
 # Prepare Nginx
 RUN rm /etc/nginx/sites-enabled/default
 ADD nginx/vimbadmin /etc/nginx/sites-available/vimbadmin
-RUN ln -sf /etc/nginx/sites-available/vimbadmin /etc/nginx/sites-enabled/vimbadmin 
+RUN ln -sf /etc/nginx/sites-available/vimbadmin /etc/nginx/sites-enabled/vimbadmin
 RUN mkdir /var/www
 ADD nginx/correct-vimbadmin-hostname.sh /tmp/correct-vimbadmin-hostname.sh
 RUN /bin/sh /tmp/correct-vimbadmin-hostname.sh
