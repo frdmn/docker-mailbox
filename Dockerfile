@@ -9,19 +9,13 @@ RUN locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
 RUN apt-get update
 
 # Install dependencies
-RUN apt-get install -y debconf-utils mysql-server-5.5 mysql-client openssh-server dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved supervisor nginx curl php5-fpm php5-pgsql php-apc php5-mcrypt php5-curl php5-gd php5-json php5-cli php5-mysql php5-memcache php5-cgi git
+RUN apt-get install -y debconf-utils mysql-server-5.5 mysql-client dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved supervisor nginx curl php5-fpm php5-pgsql php-apc php5-mcrypt php5-curl php5-gd php5-json php5-cli php5-mysql php5-memcache php5-cgi git
 
 # Configure MySQL
 RUN sed -i -e "s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
 ADD settings.conf /tmp/settings.conf
 ADD mysql/update-mysql-password.sh /tmp/update-mysql-password.sh
 RUN /bin/sh /tmp/update-mysql-password.sh
-
-# Configure SSH server
-RUN mkdir /var/run/sshd
-RUN echo "root:root" | chpasswd
-RUN sed -i "s/session.*required.*pam_loginuid.so/#session    required     pam_loginuid.so/" /etc/pam.d/sshd
-RUN sed -i "s/PermitRootLogin without-password/#PermitRootLogin without-password/" /etc/ssh/sshd_config
 
 # Prepare installation of postfix
 RUN echo "postfix postfix/root_address    string" | debconf-set-selections
@@ -115,18 +109,18 @@ RUN /bin/sh /tmp/create-vimbadmin-sql-tables.sh
 # Adjust web server file permissions
 RUN chown -R www-data:root /var/www
 
+# Clean up apt-get
+RUN apt-get -y -q autoclean && apt-get -y -q autoremove && apt-get clean
+RUN rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
+
+# Expose MySQL, postfix and Nginx
+EXPOSE 3306 25 80
+
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Correct permissions
 RUN chown -R root:root /etc/postfix/ /etc/dovecot/ /etc/nginx/ /etc/supervisor/
-
-# Clean up apt-get
-RUN apt-get -y -q autoclean && apt-get -y -q autoremove && apt-get clean
-RUN rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
-
-# Expose SSH, MySQL, postfix and Nginx
-EXPOSE 22 3306 25 80
 
 # Start supervisor
 CMD ["/usr/bin/supervisord"]
