@@ -11,8 +11,7 @@ RUN apt-get update
 # Install dependencies
 RUN apt-get install -y debconf-utils mysql-server-5.5 mysql-client dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved supervisor nginx curl php5-fpm php5-pgsql php-apc php5-mcrypt php5-curl php5-gd php5-json php5-cli php5-mysql php5-memcache php5-cgi git
 
-# Configure MySQL
-RUN sed -i -e "s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+# Add settings file for further usage
 ADD settings.conf /tmp/settings.conf
 ADD mysql/update-mysql-password.sh /tmp/update-mysql-password.sh
 RUN /bin/sh /tmp/update-mysql-password.sh
