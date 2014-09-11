@@ -4,12 +4,13 @@
 VAGRANTFILE_API_VERSION = "2"
 
 $aptPkgScript = <<SCRIPT
-apt-get update 
+apt-get update
 apt-get purge -y puppet puppet-common
 DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade -y
-apt-get autoremove -y 
+apt-get autoremove -y
 curl -s https://get.docker.io/ubuntu/ | sudo sh
 sudo apt-get install lxc-docker
+sudo docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
 SCRIPT
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
