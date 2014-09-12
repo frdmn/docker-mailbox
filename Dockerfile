@@ -13,6 +13,10 @@ RUN apt-get install -y debconf-utils mysql-server-5.5 mysql-client dovecot-core 
 
 # Add settings file for further usage
 ADD settings.conf /tmp/settings.conf
+
+# Configure MySQL
+ADD mysql/adjust-mysql-configuration-file.sh /tmp/adjust-mysql-configuration-file.sh
+RUN /bin/sh /tmp/adjust-mysql-configuration-file.sh
 ADD mysql/update-mysql-password.sh /tmp/update-mysql-password.sh
 RUN /bin/sh /tmp/update-mysql-password.sh
 
