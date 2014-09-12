@@ -73,12 +73,8 @@ RUN chmod -R o-rwx /etc/dovecot
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Configure PHP5-FPM
-RUN sed -i -e "s/short_open_tag = Off/short_open_tag = On/g" /etc/php5/fpm/php.ini
-RUN sed -i -e "s/post_max_size = 8M/post_max_size = 20M/g" /etc/php5/fpm/php.ini
-RUN sed -i -e "s/upload_max_filesize = 2M/upload_max_filesize = 20M/g" /etc/php5/fpm/php.ini
-RUN echo "cgi.fix_pathinfo = 0;" >> /etc/php5/fpm/php.ini
-RUN echo "max_input_vars = 10000;" >> /etc/php5/fpm/php.ini
-RUN echo "date.timezone = Europe/London;" >> etc/php5/fpm/php.ini
+ADD php5-fpm/adjust-php-configuration-file.sh /tmp/adjust-php-configuration-file.sh
+RUN /bin/sh /tmp/adjust-php-configuration-file.sh
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php
