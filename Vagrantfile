@@ -16,6 +16,8 @@ SCRIPT
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "phusion/ubuntu-14.04-amd64"
   config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.vm.network :forwarded_port, guest: 143, host: 143
+  config.vm.network :forwarded_port, guest: 587, host: 587
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", "2048"]
   end
