@@ -60,6 +60,8 @@ RUN groupadd -g 5000 vmail
 RUN useradd -g vmail -u 5000 vmail -d /var/mail
 
 # Add dovecot configuration files
+ADD postfix/adjust-postfix-configuration-file.sh /tmp/adjust-postfix-configuration-file.sh
+RUN /bin/sh /tmp/adjust-postfix-configuration-file.sh
 ADD dovecot/dovecot.conf /etc/dovecot/dovecot.conf
 ADD dovecot/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
 ADD dovecot/conf.d/10-auth.conf /etc/dovecot/conf.d/10-auth.conf
