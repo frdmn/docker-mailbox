@@ -35,12 +35,11 @@ smtpd_recipient_restrictions =
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
 
-myhostname = %primaryhost%
+myhostname = %mailhostname%
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 myorigin = /etc/mailname
-#mydestination = %primaryhost%, localhost
-mydestination = localhost
+mydestination = %primaryhostname%, localhost
 relayhost =
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.17.0.0/16
 mailbox_size_limit = 0
