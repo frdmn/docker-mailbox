@@ -57,7 +57,7 @@ ADD postfix/mysql/virtual_mailbox_maps.cf /etc/postfix/mysql/virtual_mailbox_map
 #RUN mkdir -p /var/mail/vhosts/
 #VOLUME /var/mail/vhosts
 RUN groupadd -g 5000 vmail
-RUN useradd -g vmail -u 5000 vmail -d /var/mail
+RUN useradd -g vmail -u 5000 vmail -d /var/vmail
 
 # Add dovecot configuration files
 ADD postfix/adjust-postfix-configuration-file.sh /tmp/adjust-postfix-configuration-file.sh
