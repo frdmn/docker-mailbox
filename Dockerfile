@@ -52,6 +52,7 @@ RUN mkdir /etc/postfix/mysql
 ADD postfix/mysql/virtual_alias_maps.cf /etc/postfix/mysql/virtual_alias_maps.cf
 ADD postfix/mysql/virtual_domains_maps.cf /etc/postfix/mysql/virtual_domains_maps.cf
 ADD postfix/mysql/virtual_mailbox_maps.cf /etc/postfix/mysql/virtual_mailbox_maps.cf
+ADD postfix/mysql/virtual_transport_maps.cf /etc/postfix/mysql/virtual_transport_maps.cf
 # Adjust the files
 ADD postfix/adjust-postfix-configuration-file.sh /tmp/adjust-postfix-configuration-file.sh
 RUN /bin/sh /tmp/adjust-postfix-configuration-file.sh
