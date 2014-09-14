@@ -73,8 +73,9 @@ ADD dovecot/conf.d/10-master.conf /etc/dovecot/conf.d/10-master.conf
 RUN chown -R vmail:dovecot /etc/dovecot
 RUN chmod -R o-rwx /etc/dovecot
 # Adjust the config files
-ADD postfix/adjust-dovecot-configuration-files.sh /tmp/adjust-dovecot-configuration-files.sh
-ADD postfix/create-ssl-certificate.sh /tmp/create-ssl-certificate.sh
+ADD dovecot/adjust-dovecot-configuration-files.sh /tmp/adjust-dovecot-configuration-files.sh
+ADD dovecot/create-ssl-certificate.sh /tmp/create-ssl-certificate.sh
+RUN /bin/sh /tmp/adjust-dovecot-configuration-files.sh
 RUN /bin/sh /tmp/create-ssl-certificate.sh
 
 # Configure Nginx
