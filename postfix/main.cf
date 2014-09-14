@@ -31,6 +31,8 @@ myhostname = %mailhostname%
 
 myorigin = %mailhostname%
 
+# @TODO - the primaryhosname variable is a test 
+# mydestination = localhost localhost.$mydomain
 mydestination = %primaryhostname% localhost localhost.$mydomain
 
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
