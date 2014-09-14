@@ -17,8 +17,8 @@ append_dot_mydomain = no
 readme_directory = no
 
 # TLS parameters
-smtpd_tls_cert_file=/etc/ssl/certs/dovecot.pem
-smtpd_tls_key_file=/etc/ssl/private/dovecot.pem
+smtpd_tls_cert_file=/etc/dovecot/dovecot.pem
+smtpd_tls_key_file=/etc/dovecot/private/dovecot.pem
 smtpd_use_tls=yes
 smtpd_tls_auth_only = yes
 
