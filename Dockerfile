@@ -70,6 +70,9 @@ ADD dovecot/conf.d/10-auth.conf /etc/dovecot/conf.d/10-auth.conf
 ADD dovecot/conf.d/10-logging.conf /etc/dovecot/conf.d/10-logging.conf
 ADD dovecot/conf.d/10-mail.conf /etc/dovecot/conf.d/10-mail.conf
 ADD dovecot/conf.d/10-master.conf /etc/dovecot/conf.d/10-master.conf
+ADD dovecot/conf.d/15-lda.conf /etc/dovecot/conf.d/15-lda.conf
+ADD dovecot/conf.d/20-imap.conf /etc/dovecot/conf.d/20-imap.conf
+ADD dovecot/conf.d/20-lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
 RUN chown -R vmail:dovecot /etc/dovecot
 RUN chmod -R o-rwx /etc/dovecot
 # Adjust the config files
