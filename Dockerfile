@@ -52,6 +52,9 @@ RUN mkdir /etc/postfix/mysql
 ADD postfix/mysql/virtual_alias_maps.cf /etc/postfix/mysql/virtual_alias_maps.cf
 ADD postfix/mysql/virtual_domains_maps.cf /etc/postfix/mysql/virtual_domains_maps.cf
 ADD postfix/mysql/virtual_mailbox_maps.cf /etc/postfix/mysql/virtual_mailbox_maps.cf
+# Adjust the files
+ADD postfix/adjust-postfix-configuration-file.sh /tmp/adjust-postfix-configuration-file.sh
+RUN /bin/sh /tmp/adjust-postfix-configuration-file.sh
 
 # Configure dovecot
 #RUN mkdir -p /var/mail/vhosts/
@@ -60,8 +63,6 @@ RUN groupadd -g 5000 vmail
 RUN useradd -g vmail -u 5000 vmail -d /var/vmail
 
 # Add dovecot configuration files
-ADD postfix/adjust-postfix-configuration-file.sh /tmp/adjust-postfix-configuration-file.sh
-RUN /bin/sh /tmp/adjust-postfix-configuration-file.sh
 ADD dovecot/dovecot.conf /etc/dovecot/dovecot.conf
 ADD dovecot/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
 ADD dovecot/conf.d/10-auth.conf /etc/dovecot/conf.d/10-auth.conf
@@ -70,6 +71,9 @@ ADD dovecot/conf.d/10-mail.conf /etc/dovecot/conf.d/10-mail.conf
 ADD dovecot/conf.d/10-master.conf /etc/dovecot/conf.d/10-master.conf
 RUN chown -R vmail:dovecot /etc/dovecot
 RUN chmod -R o-rwx /etc/dovecot
+# Adjust the config files
+ADD postfix/adjust-dovecot-configuration-files.sh /tmp/adjust-dovecot-configuration-files.sh
+RUN /bin/sh /tmp/adjust-dovecot-configuration-files.sh
 
 # Configure Nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
