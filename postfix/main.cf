@@ -1,9 +1,10 @@
-# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+# Sample Postfix configuration for use with ViMbAdmin :: Virtual Mailbox Administration
+#
+# See: https://github.com/opensolutions/ViMbAdmin
+#
+# By Barry O'Donovan - 2014-02 - http://www.barryodonovan.com/
 
-# Debian specific:  Specifying a file name will cause the first
-# line of that file to be used as the name.  The Debian default
-# is /etc/mailname.
-#myorigin = /etc/mailname
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
 
 smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
 biff = no
@@ -12,46 +13,98 @@ biff = no
 append_dot_mydomain = no
 
 # Uncomment the next line to generate "delayed mail" warnings
-#delay_warning_time = 4h
+delay_warning_time = 4h
 
 readme_directory = no
 
 # TLS parameters
-smtpd_tls_cert_file=/etc/dovecot/dovecot.pem
-smtpd_tls_key_file=/etc/dovecot/private/dovecot.pem
-smtpd_use_tls=yes
+smtpd_tls_cert_file = /etc/dovecot/dovecot.pem
+smtpd_tls_key_file = /etc/dovecot/private/dovecot.pem
+smtpd_use_tls = yes
+smtpd_tls_session_cache_database = btree:/var/lib/postfix/smtpd_scache
+smtp_tls_session_cache_database = btree:/var/lib/postfix/smtp_scache
+smtpd_tls_loglevel = 1
 smtpd_tls_auth_only = yes
-
-#Enabling SMTP for authenticated users, and handing off authentication to Dovecot
-smtpd_sasl_type = dovecot
-smtpd_sasl_path = private/auth
-smtpd_sasl_auth_enable = yes
-
-smtpd_recipient_restrictions =
-        permit_sasl_authenticated,
-        permit_mynetworks,
-        reject_unauth_destination
-
-# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
-# information on enabling SSL in the smtp client.
+smtpd_tls_eecdh_grade = strong
 
 myhostname = %mailhostname%
-alias_maps = hash:/etc/aliases
-alias_database = hash:/etc/aliases
-myorigin = /etc/mailname
-mydestination = %primaryhostname%, localhost
-relayhost =
-mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.17.0.0/16
+
+myorigin = %mailhostname%
+
+mydestination = %primaryhostname% localhost localhost.$mydomain
+
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+
 mailbox_size_limit = 0
 recipient_delimiter = +
+
+inet_protocols = all
 inet_interfaces = all
 
-# using Dovecot's LMTP for mail delivery and giving it path to store mail
-virtual_transport = lmtp:unix:private/dovecot-lmtp
+notify_classes = resource, software
+error_notice_recipient = %postmaster%
 
-# virtual mailbox setups
-virtual_uid_maps = static:5000
-virtual_gid_maps = static:5000
+# relay_domains =
+# transport_maps = hash:/etc/postfix/transport
+
+
 virtual_alias_maps = mysql:/etc/postfix/mysql/virtual_alias_maps.cf
+virtual_gid_maps = static:5000
+virtual_mailbox_base = /var/vmail
 virtual_mailbox_domains = mysql:/etc/postfix/mysql/virtual_domains_maps.cf
 virtual_mailbox_maps = mysql:/etc/postfix/mysql/virtual_mailbox_maps.cf
+virtual_minimum_uid = 5000
+virtual_uid_maps = static:5000
+#dovecot_destination_recipient_limit = 1
+virtual_transport = lmtp:unix:private/dovecot-lmtp
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+broken_sasl_auth_clients = yes
+
+
+message_size_limit = 40000000
+home_mailbox = Maildir/
+smtpd_sasl_authenticated_header = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = $myhostname
+#mailbox_command = /usr/lib/dovecot/deliver -c /etc/dovecot/dovecot.conf -m "${EXTENSION}"
+
+smtp_use_tls = yes
+smtpd_tls_received_header = yes
+smtpd_tls_mandatory_protocols = SSLv3, TLSv1
+smtpd_tls_mandatory_ciphers = medium
+tls_random_source = dev:/dev/urandom
+
+
+smtpd_recipient_restrictions =
+	reject_unknown_sender_domain,
+	reject_unknown_recipient_domain,
+	reject_unauth_pipelining,
+	permit_mynetworks,
+	permit_sasl_authenticated,
+	reject_unauth_destination
+#       reject_non_fqdn_hostname,
+#       reject_invalid_hostname
+
+#smtpd_helo_restrictions =
+#       check_helo_access hash:/etc/postfix/ehlo_whitelist,
+#       reject_non_fqdn_hostname,
+#       reject_invalid_hostname
+#       check_helo_access hash:/etc/postfix/ehlo_whitelist,
+#       reject_unknown_helo_hostname
+
+smtpd_helo_required = yes
+
+smtpd_sender_restrictions =
+	reject_unknown_sender_domain
+#        check_sender_access hash:/etc/postfix/sender_access,
+
+smtpd_data_restrictions =
+        reject_unauth_pipelining
+
+smtpd_client_restrictions =
+        permit_sasl_authenticated
+#        check_client_access hash:/etc/postfix/client_access,
+#        reject_rbl_client zen.spamhaus.org
