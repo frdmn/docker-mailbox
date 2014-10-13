@@ -24,3 +24,11 @@ Docker image that ships a running Nginx/PHP, Dovecot, Postfix as well as ViMbAdm
   `make`  
 8. Run the built image and set port mappings for IMAP, SMTP, HTTP and MySQL:  
   `make run`
+
+## Version
+
+0.0.1
+
+### License
+
+[WTFPL](LICENSE)
