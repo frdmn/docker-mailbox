@@ -22,9 +22,11 @@ Docker image that ships a running Nginx/PHP, Dovecot, Postfix as well as ViMbAdm
   `sudo su`
 6. Change into the project directory:  
   `cd /vagrant`  
-7. Build the Docker image using the `Makefile`:  
+7. Copy the default settings, rename and adjust it:  
+  `cp settings-example.conf settings.conf && editor settings.conf`
+8. Build the Docker image using the `Makefile`:  
   `make`  
-8. Run the built image and set port mappings for IMAP, SMTP, HTTP and MySQL:  
+9. Run the built image and set port mappings for IMAP, SMTP, HTTP and MySQL:  
   `make run`
 
 ## Version
