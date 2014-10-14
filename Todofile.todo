@@ -1,12 +1,14 @@
 ViMbAdmin:
   ✔ Search and replace application.ini @done (14-09-03 19:03)
-  ☐ Test general functionality @started(14-09-03 19:04)
+  ☐ Test general functionality
 Postfix/Dovecot:
   ☐ Test general functionality  
+
 General:
   ☐ Locale?
   ☐ SSL for Web
   ☐ SSL for Mail
+  ☐ port forwarding for 143/TCP on host doesn't seem to work (ofc not, nonroot and < 1024 :trollface:) 
   Persistent data storage:  
     ☐ Export/import
     ☐ Volumes for MySQL and mail storage?
