@@ -50,11 +50,11 @@ error_notice_recipient = %postmaster%
 # transport_maps = hash:/etc/postfix/transport
 
 
-virtual_alias_maps = mysql:/etc/postfix/mysql/virtual_alias_maps.cf
+virtual_alias_maps = proxy:mysql:/etc/postfix/mysql/virtual_alias_maps.cf
 virtual_gid_maps = static:5000
 virtual_mailbox_base = /var/vmail
-virtual_mailbox_domains = mysql:/etc/postfix/mysql/virtual_domains_maps.cf
-virtual_mailbox_maps = mysql:/etc/postfix/mysql/virtual_mailbox_maps.cf
+virtual_mailbox_domains = proxy:mysql:/etc/postfix/mysql/virtual_domains_maps.cf
+virtual_mailbox_maps = proxy:mysql:/etc/postfix/mysql/virtual_mailbox_maps.cf
 virtual_minimum_uid = 5000
 virtual_uid_maps = static:5000
 #dovecot_destination_recipient_limit = 1
