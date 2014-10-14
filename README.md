@@ -21,17 +21,15 @@ Docker image that ships a running Nginx/PHP, Dovecot, Postfix as well as ViMbAdm
 5. Make yourself a root (to bind listener to well known ports < 1024):  
   `sudo su`
 6. Change into the project directory:  
-  `cd /vagrant`  
+  `cd /vagrant`
 7. Copy the default settings, rename and adjust it:  
   `cp settings-example.conf settings.conf && editor settings.conf`
 8. Build the Docker image using the `Makefile`:  
-  `make`  
+  `make`
 9. Run the built image and set port mappings for IMAP, SMTP, HTTP and MySQL:  
-
-    make run  
-    [...]  
-    Successfully built 243891e844ed
-
+    `make run`  
+    \> [...]  
+    \> Successfully built 243891e844ed
 10. To enter the container:  
   `docker-enter 243891e844ed`
 
