@@ -8,7 +8,7 @@ General:
   ☐ Locale?
   ☐ SSL for Web
   ☐ SSL for Mail
-  ☐ port forwarding for 143/TCP on host doesn't seem to work (ofc not, nonroot and < 1024 :trollface:) 
+  ✔ port forwarding for 143/TCP on host doesn't seem to work (ofc not, nonroot and < 1024 :trollface:)  @done (14-10-15 11:42)
   Persistent data storage:  
     ☐ Export/import
     ☐ Volumes for MySQL and mail storage?
