@@ -3,7 +3,8 @@ ViMbAdmin:
   ☐ Test general functionality
 Postfix/Dovecot:
   ☐ Test general functionality  
-  ☐ dovecot is not able to connect to MySQL host (auth-worker(178): Error: mysql(localhost): Connect failed to database (vimbadmin): Access denied for user 'vimbadmin'@'localhost' (using password: YES))
+  ✔ dovecot is not able to connect to MySQL host @done (14-10-15 15:05)
+  ☐ Failed client authentication to Dovecot (Aborted login (auth failed, 1 attempts in 6 secs): user=<support@example.com>, method=DIGEST-MD5, rip=10.0.2.2, lip=172.17.0.2, TLS: Disconnected, session=<FZw6w3UFZAAKAAIC>)
 General:
   ☐ Locale?
   ☐ SSL for Web
