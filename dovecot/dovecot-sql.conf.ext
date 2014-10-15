@@ -1,6 +1,6 @@
 driver = mysql
 
-connect = host=localhost user=vimbadmin password=password dbname=vimbadmin
+connect = host=localhost user=vimbadmin password=%mysqlvimbadmin% dbname=vimbadmin
 default_pass_scheme = MD5
 
 password_query = SELECT username as user, password as password, \
