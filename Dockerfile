@@ -127,8 +127,8 @@ RUN chown -R www-data:root /var/www
 RUN apt-get -y -q autoclean && apt-get -y -q autoremove && apt-get clean
 RUN rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-# Expose MySQL, postfix and Nginx
-EXPOSE 3306 25 80
+# Expose MySQL, postfix, Dovecot and Nginx
+EXPOSE 3306 25 80 143 993 995
 
 # Copy supervisor config
 ADD supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
