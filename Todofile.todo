@@ -3,12 +3,12 @@ ViMbAdmin:
   ☐ Test general functionality
 Postfix/Dovecot:
   ☐ Test general functionality  
-
+  ☐ dovecot is not able to connect to MySQL host (auth-worker(178): Error: mysql(localhost): Connect failed to database (vimbadmin): Access denied for user 'vimbadmin'@'localhost' (using password: YES))
 General:
   ☐ Locale?
   ☐ SSL for Web
   ☐ SSL for Mail
-  ✔ port forwarding for 143/TCP on host doesn't seem to work (ofc not, nonroot and < 1024 :trollface:)  @done (14-10-15 11:42)
+  ✔ port forwarding for 143/TCP on host doesn't seem to work (ofc not, nonroot and < 1024)  @done (14-10-15 11:42)
   Persistent data storage:  
     ☐ Export/import
     ☐ Volumes for MySQL and mail storage?
