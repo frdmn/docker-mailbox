@@ -31,7 +31,7 @@ myhostname = %mailhostname%
 
 myorigin = %mailhostname%
 
-# @TODO - the primaryhosname variable is a test 
+# @TODO - the primaryhosname variable is a test
 # mydestination = localhost localhost.$mydomain
 mydestination = %primaryhostname% localhost localhost.$mydomain
 
@@ -49,6 +49,7 @@ error_notice_recipient = %postmaster%
 # relay_domains =
 # transport_maps = hash:/etc/postfix/transport
 
+alias_maps = hash:/etc/aliases
 
 virtual_alias_maps = proxy:mysql:/etc/postfix/mysql/virtual_alias_maps.cf
 virtual_gid_maps = static:5000
@@ -81,12 +82,12 @@ tls_random_source = dev:/dev/urandom
 
 
 smtpd_recipient_restrictions =
-	reject_unknown_sender_domain,
-	reject_unknown_recipient_domain,
-	reject_unauth_pipelining,
-	permit_mynetworks,
-	permit_sasl_authenticated,
-	reject_unauth_destination
+        permit_mynetworks,
+        permit_sasl_authenticated,
+        reject_unauth_destination
+#        reject_unknown_sender_domain,
+#        reject_unknown_recipient_domain,
+#        reject_unauth_pipelining,
 #       reject_non_fqdn_hostname,
 #       reject_invalid_hostname
 
@@ -100,7 +101,7 @@ smtpd_recipient_restrictions =
 smtpd_helo_required = yes
 
 smtpd_sender_restrictions =
-	reject_unknown_sender_domain
+    reject_unknown_sender_domain
 #        check_sender_access hash:/etc/postfix/sender_access,
 
 smtpd_data_restrictions =
