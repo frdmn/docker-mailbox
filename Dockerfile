@@ -101,6 +101,8 @@ RUN /bin/cp /etc/services /var/spool/postfix/etc/services
 #VOLUME /var/mail/vhosts
 RUN groupadd -g 5000 vmail
 RUN useradd -g vmail -u 5000 vmail -d /var/vmail
+RUN mkdir /var/vmail
+RUN chown vmail:vmail /var/vmail
 
 # Add dovecot configuration files
 ADD dovecot/dovecot.conf /etc/dovecot/dovecot.conf
